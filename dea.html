@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html>
+<head>
+    <title>HEART DEMO</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&family=Pacifico&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background-color: #ffceed;
+            font-family: 'Dancing Script', cursive;
+            text-align: center;
+            margin: 0;
+            overflow: hidden;
+        }
+        @keyframes heartfade {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+        .heart {
+            z-index: 999;
+            animation: heartfade 6s linear;
+            position: absolute;
+        }
+        .heart:before,
+        .heart:after {
+            content: "";
+            background-color: #fc2a62;
+            position: absolute;
+            height: 30px;
+            width: 45px;
+            border-radius: 15px 0px 0px 15px;
+        }
+        .heart:before {
+            transform: rotate(45deg);
+        }
+        .heart:after {
+            left: 10.5px;
+            transform: rotate(135deg);
+        }
+        .title {
+            margin-top: 20px;
+            font-size: 3rem;
+            font-family: 'Pacifico', cursive;
+            color: #d63384;
+        }
+        .subtitle {
+            font-size: 1.8rem;
+            color: #ad1457;
+        }
+        .footer {
+            position: fixed;
+            bottom: 10px;
+            width: 100%;
+            font-size: 1rem;
+            color: #6a1b9a;
+        }
+        .content {
+            margin: 20px;
+            font-size: 1.5rem;
+            color: #333;
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <div class="title">Happy New Year to my sweeeeeeetest !!!</div>
+    <div class="subtitle">Heartly wishes from the one who cares the most.</div>
+
+    <div class="content">
+        <p><i>Yaara irunthalum avoid pannalam. Aana avala mattum avoid panna mudiyathu. Athu yean nu theriyathu. Epdi thaan antha ponnu avlo close aana nu theriyala. She made some magical moments to make it to the top.</i></p>
+        <p><i>
+            When someone wants to see my soft side but they aren't her, she's the one who can get it!!
+            I accept that I hurt her a lot of times, but I can assure her that it won't happen again.
+            I'm not a perfect person, but I promise to be the best for her.
+            Complimenting that adorable girl not only with her beauty but also with her character and pure heart.
+            I believe in "Don't search for the right person; be the right person for the perfect one."
+            Antha ava/her/she nee thaan nu unake theriyum, naan bore adika virumbala.
+            Naan ethachum unna hurt paniruntha atha maranthuru. I promise you athu thirumba nadakkathu!!!
+            I miss you so much... miss you daily... miss you every hour and every minute...
+            Nee thaan epothume at the top of my mind and these words come from the bottom of my heart.
+            Vera ethuvum solla theriyala... Be with me forever and ever. I'll promise that I'll be the best for you.
+            I wish you all the happiness into the coming year with a heart full of beautiful memories.you are the reason for all my smiles,for all my inspirations,for all my everything..
+            Odamba paathuko,I'll pray to god that you should be happy always and sickness should be far awar from this little girl!!TBH in this 18 year life First time,new year with the most prioritised person...
+            I'm starting the first memorable moment with you and I hope this will lasts forever...
+        </i></p>
+        <p>Finally,Totally,completely,truly,deeply...</p>
+    </div>
+    <div class="footer">&copy; From the one who prioritizes you always!</div>
+
+    <script>
+        var brd = document.createElement("DIV");
+        document.body.insertBefore(brd, document.getElementById("board"));
+
+        const duration = 3000;
+        const speed = 0.5;
+        const cursorXOffset = 0;
+        const cursorYOffset = -5;
+
+        var hearts = [];
+
+        function generateHeart(x, y, xBound, xStart, scale) {
+            var heart = document.createElement("DIV");
+            heart.setAttribute('class', 'heart');
+            brd.appendChild(heart);
+            heart.time = duration;
+            heart.x = x;
+            heart.y = y;
+            heart.bound = xBound;
+            heart.direction = xStart;
+            heart.style.left = heart.x + "px";
+            heart.style.top = heart.y + "px";
+            heart.scale = scale;
+            heart.style.transform = "scale(" + scale + "," + scale + ")";
+            if (hearts == null)
+                hearts = [];
+            hearts.push(heart);
+            return heart;
+        }
+
+        var down = false;
+        var event = null;
+
+        document.onmousedown = function (e) {
+            down = true;
+            event = e;
+        }
+
+        document.onmouseup = function (e) {
+            down = false;
+        }
+
+        document.onmousemove = function (e) {
+            event = e;
+        }
+
+        document.ontouchstart = function (e) {
+            down = true;
+            event = e.touches[0];
+        }
+
+        document.ontouchend = function (e) {
+            down = false;
+        }
+
+        document.ontouchmove = function (e) {
+            event = e.touches[0];
+        }
+
+        var before = Date.now();
+        var id = setInterval(frame, 5);
+        var gr = setInterval(check, 100);
+
+        function frame() {
+            var current = Date.now();
+            var deltaTime = current - before;
+            before = current;
+            for (i in hearts) {
+                var heart = hearts[i];
+                heart.time -= deltaTime;
+                if (heart.time > 0) {
+                    heart.y -= speed;
+                    heart.style.top = heart.y + "px";
+                    heart.style.left = heart.x + heart.direction * heart.bound * Math.sin(heart.y * heart.scale / 30) / heart.y * 200 + "px";
+                } else {
+                    heart.parentNode.removeChild(heart);
+                    hearts.splice(i, 1);
+                }
+            }
+        }
+
+        function check() {
+            if (down) {
+                var start = 1 - Math.round(Math.random()) * 2;
+                var scale = Math.random() * Math.random() * 0.8 + 0.2;
+                var bound = 30 + Math.random() * 20;
+                generateHeart(event.pageX - brd.offsetLeft + cursorXOffset, event.pageY - brd.offsetTop + cursorYOffset, bound, start, scale);
+            }
+        }
+    </script>
+</body>
+</html>
